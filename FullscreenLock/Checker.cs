@@ -60,18 +60,23 @@ namespace FullscreenLock
                     screenBounds = Screen.FromHandle(hWnd).Bounds;
                     uint procid = 0;
                     GetWindowThreadProcessId(hWnd, out procid);
-                    var proc = Process.GetProcessById((int)procid);
-                    if ((appBounds.Bottom - appBounds.Top) == screenBounds.Height && (appBounds.Right - appBounds.Left) == screenBounds.Width)
-                    {
-                        Console.WriteLine(proc.ProcessName);
-                        Cursor.Clip = screenBounds;
-                        return true;
-                    }
-                    else
-                    {
-                        Cursor.Clip = Rectangle.Empty;
+                    try{
+                        var proc = Process.GetProcessById((int)procid);
+                        if ((appBounds.Bottom - appBounds.Top) == screenBounds.Height && (appBounds.Right - appBounds.Left) == screenBounds.Width)
+                        {
+                            Console.WriteLine(proc.ProcessName);
+                            Cursor.Clip = screenBounds;
+                            return true;
+                        }
+                        else
+                        {
+                            Cursor.Clip = Rectangle.Empty;
+                            return false;
+                        }
+                    }catch(Exception e){
                         return false;
                     }
+                    
                 }   
              }
              return false;

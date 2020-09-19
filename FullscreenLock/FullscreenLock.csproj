@@ -73,9 +73,6 @@
     <Compile Include="FullscreenLock.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FullscreenLock.Designer.cs">
-      <DependentUpon>FullscreenLock.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FullscreenLock.resx">

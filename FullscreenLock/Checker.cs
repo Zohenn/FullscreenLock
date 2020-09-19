@@ -10,7 +10,7 @@ namespace FullscreenLock
 {
     class Checker
     {
-        System.Windows.Forms.Timer t = new System.Windows.Forms.Timer();
+        Timer t = new Timer();
 
         // Import a bunch of win32 API calls.
         [DllImport("user32.dll")]
@@ -26,42 +26,16 @@ namespace FullscreenLock
         [DllImport("user32.dll")]
         private static extern IntPtr GetShellWindow();
 
-        Label l; // One day I'll figure out how to set the label without sending a pointer into the constructor.
-        public Checker(Label ll)
+        public Checker()
         {
-            l = ll;
             t.Tick += new EventHandler(CheckForFullscreenApps);
             t.Interval = 100;
             t.Start();
         }
-
-        public void toggle(Button b, Label l)
-        {
-            if(t.Enabled)
-            {
-                t.Stop();
-                l.Text = "Paused";
-            }
-            else
-            {
-                t.Start();
-                l.Text = "Waiting for focus";
-            }
-        }
         
         private void CheckForFullscreenApps(object sender, System.EventArgs e)
         {
-        
-            if (IsForegroundFullScreen())
-            {
-                
-                l.Text = "Fullscreen app in focus";
-            }
-            else
-            {
-                l.Text = "Waiting for focus";
-                
-            }
+            IsForegroundFullScreen();
         }
 
         public static bool IsForegroundFullScreen()

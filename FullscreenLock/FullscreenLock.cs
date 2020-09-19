@@ -15,32 +15,42 @@ namespace FullscreenLock
     {
         public FullscreenLock()
         {
-            InitializeComponent();
+            ComponentResourceManager resources = new ComponentResourceManager(typeof(FullscreenLock));
+
+            this.ni = new NotifyIcon();
+            this.ni.Icon = (Icon)resources.GetObject("$this.Icon");
+            //this.ni.DoubleClick += delegate (object sender, EventArgs e) {
+            //    this.Show();
+            //    this.WindowState = FormWindowState.Normal;
+            //    this.ni.Visible = false;
+            //};
+
+            this.contextMenu = new ContextMenu();
+            this.contextMenu.MenuItems.Add(this.contextMenuExit);
+            this.contextMenuExit.Click += new EventHandler(this.onExitClick);
+            this.ni.ContextMenu = this.contextMenu;
+
+            this.c = new Checker();
         }
+
+        private NotifyIcon ni;
+        private ContextMenu contextMenu;
+        private MenuItem contextMenuExit = new MenuItem {
+            Index = 0,
+            Text = "Exit"
+        };
         private Checker c;
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            this.c = new Checker(label1);
+
+        private void onExitClick(object sender, EventArgs e) {
+            this.Close();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-           c.toggle(this.button1,this.label1);
-        }
-        public void labelset(string s)
-        {
-            this.label1.Text = s;
-        }
+        protected override void OnShown(EventArgs e) {
+            this.WindowState = FormWindowState.Minimized;
+            this.Hide();
+            this.ni.Visible = true;
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-
+            base.OnShown(e);
         }
     }
 }
